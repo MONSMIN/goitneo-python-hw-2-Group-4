@@ -44,7 +44,7 @@ def change_contact(args, contacts):
         record.edit_phone(old_phone, new_phone)
         return f"Contact {name} updated phone: {old_phone} -> {new_phone}"
     else:
-        return "Contact not found."
+        raise KeyError
     
 @input_error
 def remove_phone(args, contacts):
@@ -56,7 +56,7 @@ def remove_phone(args, contacts):
         else:
             return f"Phone {phone_to_remove} not found in contact {name}."
     else:
-        return "Contact not found."
+        raise KeyError
 
 
 @input_error
@@ -67,13 +67,11 @@ def show_phone(args, contacts):
         phones = ', '.join(p.value for p in record.phones)
         return f"Phones: {phones}, contact {name}!"
     else:
-        return "Contact not found."
+        raise KeyError
 
 
 @input_error
 def show_all(contacts):
-    if not contacts:
-        return "No contacts found."
     result = "\n".join([str(record) for record in contacts.values()])
     return result
 
