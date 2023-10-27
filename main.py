@@ -38,11 +38,23 @@ def add_contact(args, contacts):
 
 @input_error
 def change_contact(args, contacts):
-    name, new_phone = args
+    name, old_phone, new_phone = args
     record = contacts.find(name)
     if record:
-        record.edit_phone(new_phone)
-        return f"Contact {name} updated phone: {new_phone}"
+        record.edit_phone(old_phone, new_phone)
+        return f"Contact {name} updated phone: {old_phone} -> {new_phone}"
+    else:
+        return "Contact not found."
+    
+@input_error
+def remove_phone(args, contacts):
+    name, phone_to_remove = args
+    record = contacts.find(name)
+    if record:
+        if record.del_phone(phone_to_remove):
+            return f"Phone {phone_to_remove} removed from contact {name}."
+        else:
+            return f"Phone {phone_to_remove} not found in contact {name}."
     else:
         return "Contact not found."
 
@@ -91,6 +103,8 @@ def main():
             print(add_contact(args, contacts))
         elif command == "change":
             print(change_contact(args, contacts))
+        elif command == "del":
+            print(remove_phone(args, contacts))
         elif command == "phone":
             print(show_phone(args, contacts))
         elif command == "all":

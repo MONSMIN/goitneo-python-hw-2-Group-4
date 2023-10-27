@@ -34,17 +34,19 @@ class Record:
             phone_obj = Phone(phone)
             self.phones.append(phone_obj)
 
-    def del_phone(self, old_phone, new_phone):
+    def del_phone(self, phone_to_remove) -> bool:
+        for phone_obj in self.phones:
+            if phone_obj.value == phone_to_remove:
+                self.phones.remove(phone_obj)
+                return True  
+        return False
+            
+
+    def edit_phone(self, old_phone, new_phone):
         for p in self.phones:
             if p.value == old_phone:
                 p.value = new_phone
                 return
-
-    def edit_phone(self, *new_phones):
-        unique_phones = set(new_phones)
-        self.phones.clear()
-        for phone in unique_phones:
-            self.add_phones(phone)
 
     def find_phone(self, phone):
         for p in self.phones:
